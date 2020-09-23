@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.Directives._
 
 object Hello {
   val HOST = "localhost"
-  val PORT = 8080
+  val PORT = 3997
 
   def startServer() = {
     implicit val system = ActorSystem("web-server")
