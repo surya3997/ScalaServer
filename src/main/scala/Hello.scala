@@ -5,7 +5,7 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 
 object Hello {
-  val HOST = "localhost"
+  val HOST = "127.0.0.1"
   val PORT = 3997
 
   def startServer() = {
