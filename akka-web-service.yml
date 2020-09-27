@@ -5,11 +5,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      deploy: scalaserver
+      app: scalaserver
   template:
     metadata:
       labels:
-        deploy: scalaserver
+        app: scalaserver
     spec:
       containers:
         - name: scalaserver
