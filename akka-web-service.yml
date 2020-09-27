@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scalaserver
+spec:
+  selector:
+    matchLabels:
+      deploy: scalaserver
+  template:
+    metadata:
+      labels:
+        deploy: scalaserver
+    spec:
+      containers:
+        - name: scalaserver
+          image: httpserver:latest
+          imagePullPolicy: Never
+          ports:
+          - containerPort: 3997

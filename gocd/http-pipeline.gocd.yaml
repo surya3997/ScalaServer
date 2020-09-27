@@ -1,0 +1,40 @@
+format_version: 3
+pipelines:
+  http-pipeline:
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git:
+        git: https://github.com/surya3997/ScalaServer
+        shallow_clone: false
+        auto_update: true
+        branch: master
+        destination: ScalaServer
+    stages:
+    - build:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          compile:
+            timeout: 0
+            artifacts:
+            - build:
+                source: ScalaServer/target/scala-2.13/Akka-web-service-assembly-0.1.jar
+                destination: artifacts/
+            tasks:
+            - exec:
+                command: ls
+                run_if: passed
+            - exec:
+                arguments:
+                - -c
+                - sbt clean assembly
+                command: /bin/bash
+                working_directory: ScalaServer
+                run_if: passed

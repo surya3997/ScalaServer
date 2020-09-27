@@ -1,0 +1,47 @@
+format_version: 3
+pipelines:
+  deploy:
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git:
+        git: https://github.com/surya3997/ScalaServer
+        shallow_clone: false
+        auto_update: true
+        branch: master
+      http-pipeline:
+        ignore_for_scheduling: false
+        pipeline: http-pipeline
+        stage: build
+    stages:
+    - deploy:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          deploy-job:
+            timeout: 0
+            tasks:
+            - fetch:
+                is_file: false
+                source: artifacts
+                destination: ''
+                pipeline: http-pipeline
+                stage: build
+                job: compile
+                artifact_origin: gocd
+                run_if: passed
+            - exec:
+                command: ls
+                run_if: passed
+            - exec:
+                arguments:
+                - -c
+                - kubectl create -f akka-web-service.yml
+                command: /bin/bash
+                run_if: passed
